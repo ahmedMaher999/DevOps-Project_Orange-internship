@@ -6,15 +6,6 @@ pipeline {
     }
 
     stages {
-        
-        stage('Checkout') {
-            steps {
-                git branch: 'main', 
-                    url: 'https://github.com/ahmedMaher999/DevOps-Project_Orange-internship.git', 
-                    credentialsId: 'access private repo on github'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh '''
