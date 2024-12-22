@@ -3,6 +3,8 @@ pipeline {
     environment {
         DOCKER_HUB_CREDS = 'docker_hub_credential'
         DOCKER_IMAGE = 'ahmedmaher4/orange_project_weather-app:latest'
+        PRIVATE_KEY_1 = './Ansible/keys/prinvate_key_1'
+        PRIVATE_KEY_2 = './Ansible/keys/prinvate_key_2'
     }
 
     stages {
@@ -27,6 +29,22 @@ pipeline {
         stage('Push The Image To Dockerhub') {
             steps {
                 sh 'docker push ${DOCKER_IMAGE}'
+            }
+        }
+
+        stage ('Run Playbook') {
+            steps {
+                script {
+                    sh '''
+                    cd Ansible
+
+                    ansible-playbook -i inventory.ini playbook.yml \
+                    --private-key $PRIVATE_KEY_1 --limit 192.168.45.30
+
+                    ansible-playbook -i inventory.ini playbook.yml \
+                    --private-key $PRIVATE_KEY_2 --limit 192.168.45.31
+                    '''
+                }
             }
         }
     }
