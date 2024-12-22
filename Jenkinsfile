@@ -37,6 +37,10 @@ pipeline {
                 script {
                     sh '''
                     cd Ansible
+                    
+                    chmod 600 ./Ansible/keys/prinvate_key_1
+
+                    chmod 600 ./Ansible/keys/prinvate_key_2
 
                     ansible-playbook -i inventory.ini playbook.yml \
                     --private-key $PRIVATE_KEY_1 --limit 192.168.45.30
