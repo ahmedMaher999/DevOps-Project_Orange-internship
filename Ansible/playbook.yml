@@ -1,0 +1,7 @@
+---
+- name: Test Ansible Connectivity and Save Message
+  hosts: all
+  tasks:
+    - name: Save a test message to a file
+      ansible.builtin.shell: echo "Hello {{ inventory_hostname }}" > /tmp/Ansible_test_message.txt
+
