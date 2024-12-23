@@ -3,8 +3,8 @@ pipeline {
     environment {
         DOCKER_HUB_CREDS = 'docker_hub_credential'
         DOCKER_IMAGE = 'ahmedmaher4/orange_project_weather-app:latest'
-        PRIVATE_KEY_1 = './Ansible/keys/prinvate_key_1'
-        PRIVATE_KEY_2 = './Ansible/keys/prinvate_key_2'
+        PRIVATE_KEY_1 = './keys/prinvate_key_1'
+        PRIVATE_KEY_2 = './keys/prinvate_key_2'
     }
 
     stages {
@@ -38,9 +38,9 @@ pipeline {
                     sh '''
                     cd Ansible
                     
-                    chmod 600 keys/prinvate_key_1
+                    chmod 600 $PRIVATE_KEY_1
 
-                    chmod 600 keys/prinvate_key_2
+                    chmod 600 $PRIVATE_KEY_2
 
                     ansible-playbook -i inventory.ini playbook.yml \
                     --private-key $PRIVATE_KEY_1 --limit 192.168.45.30
