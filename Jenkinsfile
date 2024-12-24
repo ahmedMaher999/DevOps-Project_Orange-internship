@@ -32,22 +32,22 @@ pipeline {
             }
         }
 
-        stage ('Run Playbook') {
-            steps {
-                script {
-                    sh '''
-                    chmod 600 $PRIVATE_KEY_1
+        //stage ('Run Playbook') {
+        //  steps {
+        //        script {
+        //            sh '''
+        //            chmod 600 $PRIVATE_KEY_1
+        //
+        //           chmod 600 $PRIVATE_KEY_2
+        //
+        //            ansible-playbook -i inventory.ini playbook.yml \
+        //            --private-key $PRIVATE_KEY_1 --limit 192.168.45.30
 
-                    chmod 600 $PRIVATE_KEY_2
-
-                    ansible-playbook -i inventory.ini playbook.yml \
-                    --private-key $PRIVATE_KEY_1 --limit 192.168.45.30
-
-                    ansible-playbook -i inventory.ini playbook.yml \
-                    --private-key $PRIVATE_KEY_1 --limit 192.168.45.31
-                    '''
-                }
-            }
-        }
+        //            ansible-playbook -i inventory.ini playbook.yml \
+        //            --private-key $PRIVATE_KEY_1 --limit 192.168.45.31
+        //            '''
+        //        }
+        //    }
+        //}
     }
 }
