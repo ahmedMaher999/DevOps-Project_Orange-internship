@@ -12,8 +12,6 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    cd Ansible
-                    
                     chmod 600 $PRIVATE_KEY_1
 
                     chmod 600 $PRIVATE_KEY_2
