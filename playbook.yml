@@ -1,7 +1,56 @@
 ---
-- name: Test Ansible Connectivity and Save Message
-  hosts: all
+- name: update machine, install docker, pull image and run image
+  hosts: managed_machines
+  become: yes
   tasks:
-    - name: Save a test message to a file
-      ansible.builtin.shell: echo "Hello {{ inventory_hostname }}" > /tmp/Ansible_test_message.txt
 
+    - name: Install prerequisites
+      yum:
+       name:
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+       state: present
+
+    # Check if Docker is already installed
+    - name: Check if Docker is installed
+      command: docker --version
+      register: docker_installed
+      failed_when: false
+      changed_when: false
+
+    # Add Docker repository (only if Docker is not installed)
+    - name: Add Docker repository
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+      when: docker_installed.rc != 0
+
+    # Install Docker (only if Docker is not installed)
+    - name: Install Docker
+      yum:
+        name: docker-ce
+        state: present
+      when: docker_installed.rc != 0
+
+    # Start and enable Docker service
+    - name: Ensure Docker is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    # Pull a Docker image
+    - name: Pull Docker image
+      docker_image:
+        name: ahmedmaher4/orange_project_weather-app:latest
+        source: pull
+
+    # Run the container on port 5000
+    - name: Run the container
+      docker_container:
+        name: weather_app
+        image: ahmedmaher4/orange_project_weather-app:latest
+        state: started
+        ports:
+          - "5000:5000"
