@@ -11,6 +11,8 @@ This project demonstrates how to:
 - Build efficient *CI/CD pipelines* for deploying applications seamlessly.
 - Implement DevOps best practices to streamline development and operations.
 
+![Weather App Screenshot](images/project-architicture.png)
+
 ## Features
 
 - Fetch real-time weather updates for any city.
